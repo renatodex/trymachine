@@ -1,0 +1,24 @@
+<h1>Exemplo</h1>
+<p>Exemplo de uma página usando a lib do TryMachine.</p>
+
+<a href="" class="botao-teste">Clique em mim!</a>
+
+<% content_for :pos_js do %>
+<script language="javascript">
+  TryMachine.get_experiment(1, function(variant) {
+    if(variant.get_name() == 'botao-vermelho') {
+      $('.botao-teste').addClass('botao-vermelho');
+    } else {
+      $('.botao-teste').addClass('botao-azul');
+    }
+    variant.register_view();
+  });
+
+  $('.botao-teste').bind('click', function(e) {
+    var variant = TryMachine.get_variant();
+    variant.register_action();
+    alert('Clique registrado!');
+    e.preventDefault();
+  });
+</script>
+<% end %>

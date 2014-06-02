@@ -1,4 +1,5 @@
 Trymachine::Application.routes.draw do
+  get "sample-test" => 'sample#index'
   get "experiment_variant/view"
   get "experiment_variant/action"
   mount RailsAdmin::Engine => '/admin', :as => 'rails_admin'

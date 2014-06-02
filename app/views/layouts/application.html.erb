@@ -12,7 +12,6 @@
 
     <!-- Bootstrap -->
     <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
-    <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
     <%= csrf_meta_tags %>
 
     <!-- Just for debugging purposes. Don't actually copy this line! -->
@@ -39,12 +38,14 @@
 
       <%= yield %>
 
-      
+
     </div> <!-- /container -->
 
-
+    <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
+
+    <%= yield :pos_js %>
   </body>
 </html>

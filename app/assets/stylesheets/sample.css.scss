@@ -1,0 +1,23 @@
+.botao-teste {
+  display:block;
+  padding:5px;
+  background-color:#ccc;
+  color:#333;
+  width:120px;
+  text-align:center;
+
+  &:hover {
+    text-decoration:none;
+    color:#fff;
+  }
+}
+
+.botao-azul {
+  background-color:#3f7cdd;
+  color:#fff;
+}
+
+.botao-vermelho {
+  background-color:#bc3030;
+  color:#fff;
+}
