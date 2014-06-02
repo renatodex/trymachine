@@ -1,0 +1,89 @@
+(function(window, $) {
+  var base_host = 'http://localhost:3000'
+
+  var TryMachine = function() {
+      var _experiment_url = [base_host, '/experiment/{id}'].join('');
+      var _variant;
+
+      var init = function() {
+      }
+
+      var get_experiment = function(id, callback) {
+        var id = id || 0;
+        var callback = callback || function(){};
+        var url = _experiment_url.replace('{id}', id);
+        var self = this;
+        delete this._variant;
+
+        $.get(url, function(result) {
+          if(result.error) {
+            console.log('[ Experiment could not be found ]');
+            return;
+          } else {
+            console.log('[ Experiment Variant will be load on TryMachine.get_variant ]');
+            self._variant = new TryVariant(result.experiment_variant_id, result.experiment_variant_slug, result.token_view, result.token_action);
+            callback(self._variant);
+          }
+        })
+      }
+
+      init();
+
+      return {
+        get_experiment:get_experiment,
+        get_variant:function() {
+          return this._variant;
+        }
+      }
+  }
+
+  var TryVariant = function(variant_id, variant_slug, variant_token_view, variant_token_action) {
+    var _variant_url = [base_host, '/experiment-variants/{id}/{action_type}/create{token}'].join('');
+    var _variant_id, _variant_slug, _variant_token_action, _variant_token_view;
+
+    var init = function(variant_id, variant_slug, variant_token_view, variant_token_action) {
+      var variant_id = variant_id || 0;
+      var variant_slug = variant_slug || '';
+
+      _variant_id = variant_id;
+      _variant_slug = variant_slug;
+      _variant_token_view = variant_token_view;
+      _variant_token_action = variant_token_action;
+      _variant_url = _variant_url.replace('{id}', _variant_id);
+    }
+
+    var register = function(action_type, token) {
+      var action_type = action_type || 'undefined';
+      var variant_token = token || '';
+
+      var url;
+      url = _variant_url.replace('{action_type}', action_type);
+      url = url.replace('{token}', ['/',variant_token].join(''));
+      $.get(url, function(result) {
+        console.log('[ Result from Variant ActionType Registering ]')
+        console.log(result);
+      })
+    }
+
+    init(variant_id, variant_slug, variant_token_view, variant_token_action);
+    return {
+      register_view : function() {
+        register('view', _variant_token_view);
+      },
+      register_action : function() {
+        register('action', _variant_token_action);
+      },
+      get_tokens : function() {
+        return {
+          view : _variant_token_view,
+          action : _variant_token_action
+        }
+      },
+      get_name : function() {
+        return _variant_slug;
+      }
+    }
+  }
+
+  window.TryMachine = new TryMachine();
+})(window, jQuery);

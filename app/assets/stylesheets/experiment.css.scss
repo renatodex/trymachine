@@ -1,0 +1,14 @@
+@import "bootstrap";
+@import "bootstrap/theme";
+
+// Place all the styles related to the Experiment controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+.experiment-data {
+  box-sizing:border-box;
+  padding:10px 20px 10px 20px;
+  margin:10px 0px 20px 0px;
+  border:1px dotted #b6b6b6;
+  border-radius:10px;
+}

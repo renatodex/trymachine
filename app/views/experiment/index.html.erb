@@ -1,0 +1,55 @@
+<div class="page-header">
+  <h1>Experimentos <small>Em execução</small></h1>
+</div>
+
+<% @experiments.each do |experiment| %>
+
+  <div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">Experimento #<%= experiment.id %> : <%= experiment.name %></h3>
+  </div>
+  <div class="panel-body">
+
+  <div class="experiment-data">
+    <h5>Data de início <small><%= experiment.created_at.to_s(:br) %></small></h5>
+    <h5>Data de término: <small><%= experiment.run_until.to_s(:br) %></small></h5>
+    <h5>Dias de experimento: <small><%= (experiment.run_until.to_date-experiment.created_at.to_date).to_i %></small></h5>
+  </div>
+
+  <div class="progress progress-striped active">
+    <div class="progress-bar"
+      role="progressbar" aria-valuenow="45" aria-valuemin="0"
+      aria-valuemax="100" style="width: <%= percentage_bar(experiment.created_at, experiment.run_until)%>">
+      <span class="sr-only"><%= percentage_bar(experiment.created_at, experiment.run_until)%> completado</span>
+    </div>
+  </div>
+
+  <table class="table table-condensed">
+    <tr>
+      <th></th>
+      <th>ID</th>
+      <th>Nome da Variação</th>
+      <th>Slug da Variação</th>
+      <th>Taxa de Conversão</th>
+      <th>Número de Visualizações</th>
+      <th>Número de Interações</th>
+    </tr>
+
+    <% letters = ('A'..'Z').to_a %>
+    <% experiment.experiment_variants.each do |variant|%>
+      <tr>
+        <td><span class="badge"><%= letters.shift %></span></td>
+        <td><code><%= "%06d" % variant.id %></code></td>
+        <td><%= variant.name %></td>
+        <td><h4 class="label label-primary"><%= variant.name.parameterize %></h4></td>
+        <td><%= to_percentage(variant.conversion_rate) %></td>
+        <td><%= variant.views %></td>
+        <td><%= variant.interactions %></td>
+      </tr>
+    <% end %>
+  </table>
+</div>
+</div>
+
+
+<% end %>
