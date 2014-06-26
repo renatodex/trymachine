@@ -17,6 +17,8 @@ gem 'coffee-rails', '~> 4.0.0'
 
 gem 'bootstrap-sass', '~> 3.1.1'
 
+gem 'devise'
+
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
 

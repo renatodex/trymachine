@@ -1,12 +1,17 @@
 Trymachine::Application.routes.draw do
+  devise_for :users
   get "sample-test" => 'sample#index'
   get "experiment_variant/view"
   get "experiment_variant/action"
   mount RailsAdmin::Engine => '/admin', :as => 'rails_admin'
   mount TryAPI => '/'
 
-  get '/experiment/:id' => 'experiment#new'
+  root 'experiment#index'
+
+  get '/experiment/:id' => 'experiment#new', :as => 'experiment'
   get '/experiments' => 'experiment#index'
+
+  get '/library/client.js' => 'experiment#client', defaults: {format: :js}
 
   get '/experiment-variants/:variant_id/:action_name/create(/:token)' => 'experiment_variant#create_data'
   # The priority is based upon order of creation: first created -> highest priority.

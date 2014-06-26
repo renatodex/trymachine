@@ -1,4 +1,7 @@
 class ExperimentController < ApplicationController
+  respond_to :js
+  before_action :authenticate_user!
+
   def new
     experiment = Experiment.find_by_id(params[:id])
 
@@ -19,6 +22,10 @@ class ExperimentController < ApplicationController
   end
 
   def index
-    @experiments = Experiment.where("run_until > '#{DateTime.now}'")
+    @experiments = current_user.experiments.where("run_until > '#{DateTime.now}'")
+  end
+
+  def client
+    request.format = 'js'
   end
 end
